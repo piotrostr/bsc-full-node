@@ -1,32 +1,58 @@
-variable "project_id" {}
-variable "name" {}
-variable "machine_type" {}
-variable "image" {}
-variable "network" {}
-variable "zone" {}
+data "aws_ami" "ubuntu" {
 
-resource "google_compute_instance" "vm_instance" {
-  name         = var.name
-  machine_type = var.machine_type
-  project      = var.project_id
-  zone         = var.zone
+  most_recent = true
 
-  boot_disk {
-    initialize_params {
-      image = var.image
-    }
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
-  network_interface {
-    network = var.network
-    access_config {
-      // ephemeral public ip
-    }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"]
+}
+
+resource "aws_instance" "instance" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "m5zn.2xlarge"
+  key_name      = "key"
+  depends_on = [
+    aws_security_group.ssh_security_group
+  ]
+  vpc_security_group_ids = [
+    aws_security_group.ssh_security_group.id
+  ]
+
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file("~/.ssh/id_rsa")
+    timeout     = "4m"
+    host        = self.public_ip
+    password    = var.SSH_PASSWORD
   }
 }
 
-resource "google_compute_network" "vpc_network" {
-  name                    = format("${var.project_id}-vpc", )
-  auto_create_subnetworks = "true"
-  project                 = var.project_id
+resource "aws_security_group" "ssh_security_group" {
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+  }
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 22
+    to_port     = 22
+  }
+}
+
+resource "aws_key_pair" "key" {
+  key_name   = "key"
+  public_key = file("~/.ssh/id_rsa.pub")
 }

@@ -1,7 +1,0 @@
-project_id   = "full-node-bsc"
-region       = "us-east1]"
-zone         = "us-east1-b"
-name         = "main-instance"
-machine_type = "c2-standard-16"
-image        = "ubuntu-os-cloud/ubuntu-2204-lts"
-network      = "default"
