@@ -1,6 +1,4 @@
-# Set up a node of Ethereum mainnet in 5 minutes
-
-spins up a geth node for ethereum chain using provisioning tools
+# Help Ethereum be more secure and decentralized and set up a light node in 5 minutes
 
 ## requirements
 
