@@ -1,10 +1,8 @@
-# Full Node of mainnet
-
-## goal
+# Set up a node of Ethereum mainnet in 5 minutes
 
 spins up a geth node for ethereum chain using provisioning tools
 
-### requirements
+## requirements
 
 env vars:
 
@@ -21,11 +19,12 @@ export TF_VAR_REGION=""
 - jq (for parsing json)
 - ssh keys (`~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`)
 
-### setup
+## setup
 
 get an ip address alocated and append to ansible hosts, export the address to env
 
 ```bash
+git clone https://github.com/piotrostr/eth-mainnet-light-node
 aws ec2 allocate-address > /etc/allocated-address
 export NODE_IP=$(cat /etc/allocated-address | jq -r ".PublicIp")
 export TF_VAR_ALLOCATION_ID=$(cat /etc/allocated-address | jq -r ".AllocationId")
@@ -35,7 +34,7 @@ echo $NODE_IP >> /etc/ansible/hosts
 in case one would prefer to maintain the same address, the setting of the `NODE_IP`
 and `TF_VAR_ALLOCATION_ID` variables can be appended to ~/.profile or ~/.bashrc
 
-### usage
+## usage
 
 start and setup the instance
 
@@ -58,7 +57,7 @@ then, you can pull data from the chain by calling
 curl http://$NODE_IP:8545/
 ```
 
-### cleanup
+## cleanup
 
 cleanup after the ip address, destroy the resources
 
@@ -71,6 +70,6 @@ rm /etc/allocated-address
 
 and dont forget to remove the host `$(echo $NODE_IP)` from `/etc/ansible/hosts`
 
-### License
+## License
 
 [MIT](https://github.com/piotrostr/bsc-full-node/blob/main/LICENSE)
