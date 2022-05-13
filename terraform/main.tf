@@ -56,3 +56,8 @@ resource "aws_key_pair" "key" {
   key_name   = "key"
   public_key = file("~/.ssh/id_rsa.pub")
 }
+
+resource "aws_eip_association" "eip_assoc" {
+  instance_id   = aws_instance.instance.id
+  allocation_id = var.ALLOCATION_ID
+}
