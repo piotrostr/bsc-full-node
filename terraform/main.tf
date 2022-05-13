@@ -17,7 +17,7 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "instance" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "m5zn.2xlarge"
+  instance_type = "m5zn.xlarge"
   key_name      = "key"
   depends_on = [
     aws_security_group.ssh_security_group
