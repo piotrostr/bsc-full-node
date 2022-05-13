@@ -57,3 +57,20 @@ then, you can pull data from the chain by calling
 ```bash
 curl http://$NODE_IP:8545/
 ```
+
+### cleanup
+
+cleanup after the ip address, destroy the resources
+
+```bash
+cd ./terraform
+terraform destroy
+aws ec2 release-address --allocation-id $TF_VAR_ALLOCATION_ID
+rm /etc/allocated-address
+```
+
+and dont forget to remove the host `$(echo $NODE_IP)` from `/etc/ansible/hosts`
+
+### License
+
+[MIT](https://github.com/piotrostr/bsc-full-node/blob/main/LICENSE)
