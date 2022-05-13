@@ -1,8 +1,8 @@
-# Full Node BSC
+# Full Node of mainnet
 
 ## goal
 
-spins up a geth full node for binance smart chain using teraform and ansible
+spins up a geth node for ethereum chain using provisioning tools
 
 ### requirements
 
@@ -19,8 +19,7 @@ export TF_VAR_REGION=""
 - terraform
 - ansible
 - jq (for parsing json)
-
-ssh keys (`~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`)
+- ssh keys (`~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`)
 
 ### setup
 
@@ -28,23 +27,33 @@ get an ip address alocated and append to ansible hosts, export the address to en
 
 ```bash
 aws ec2 allocate-address > /etc/allocated-address
-export BSC_NODE_IP=$(cat /etc/allocated-address | jq -r ".PublicIp")
+export NODE_IP=$(cat /etc/allocated-address | jq -r ".PublicIp")
 export TF_VAR_ALLOCATION_ID=$(cat /etc/allocated-address | jq -r ".AllocationId")
-echo $BSC_NODE_IP >> /etc/ansible/hosts
+echo $NODE_IP >> /etc/ansible/hosts
 ```
 
-in case one would prefer to maintain the same address, the setting of the `BSC_NODE_IP`
+in case one would prefer to maintain the same address, the setting of the `NODE_IP`
 and `TF_VAR_ALLOCATION_ID` variables can be appended to ~/.profile or ~/.bashrc
 
 ### usage
 
-start the instance
+start and setup the instance
 
 ```bash
-terraform init && terraform apply
-ssh -i ~/.ssh/id_rsa ubuntu@$BSC_NODE_IP
+cd ./terraform && terraform init && terraform apply
+cd ../
+ansible-playbook ansible/main.yml
+ssh ubuntu@$NODE_IP
 ```
 
+and
+
 ```bash
-git clone https://github.com/ethereum/go-ethereum
+geth --syncmode light --http
+```
+
+then, you can pull data from the chain by calling
+
+```bash
+curl http://$NODE_IP:8545/
 ```
