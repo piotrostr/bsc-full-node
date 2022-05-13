@@ -1,4 +1,4 @@
-# Help Ethereum be more secure and decentralized and set up a light node in 5 minutes
+# Help Ethereum be more secure and decentralized and set up a light node in 5 minutes!
 
 ## requirements
 
