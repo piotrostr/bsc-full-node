@@ -1,6 +1,14 @@
 ---
-- name: First Task
+- name: set up a geth light node
   hosts: all
+  become: true
+
   tasks:
-    - name: Leaving a mark
-      command: "touch /tmp/mark"
+    - name: add apt-repo
+      ansible.builtin.apt_repository:
+        repo: ppa:ethereum/ethereum
+        update_cache: true
+
+    - name: install geth
+      ansible.builtin.apt:
+        name: ethereum
