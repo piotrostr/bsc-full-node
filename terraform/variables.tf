@@ -20,6 +20,5 @@ variable "SSH_PASSWORD" {
 
 variable "ALLOCATION_ID" {
   type      = string
-  sensitive = false
-  default   = "eipalloc-0c57be50bb3a7471b"
+  sensitive = true
 }

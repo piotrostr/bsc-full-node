@@ -1,0 +1,6 @@
+---
+- name: First Task
+  hosts: all
+  tasks:
+    - name: Leaving a mark
+      command: "touch /tmp/mark"
