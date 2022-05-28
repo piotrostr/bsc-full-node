@@ -2,6 +2,8 @@
 
 [Medium Article](https://medium.com/@piotr.ostrowski/help-ethereum-become-more-secure-and-decentralized-and-set-up-a-node-in-5-minutes-6a0316f2b7)
 
+![image](https://user-images.githubusercontent.com/63755291/170838921-51455851-e8ec-4bde-a905-1a9818c90a86.png)
+
 ## requirements
 
 Environment variables:
